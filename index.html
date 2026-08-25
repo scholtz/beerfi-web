@@ -198,6 +198,96 @@
           transform: translateY(0);
         }
       }
+      /* Gold gradient headline */
+      .text-gold-gradient {
+        background: linear-gradient(
+          100deg,
+          #fff6df 0%,
+          #ffd700 35%,
+          #fd8b00 70%,
+          #ffd700 100%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: goldShimmer 6s linear infinite;
+      }
+      @keyframes goldShimmer {
+        to {
+          background-position: 200% center;
+        }
+      }
+      /* Terminal frame around the featured artwork */
+      .art-frame {
+        position: relative;
+        background: #050505;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition:
+          border-color 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+      .art-frame:hover {
+        border-color: rgba(255, 215, 0, 0.6);
+        box-shadow: 0 0 60px -10px rgba(255, 215, 0, 0.25);
+      }
+      .art-frame .art-img {
+        display: block;
+        width: 100%;
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .art-frame:hover .art-img {
+        transform: scale(1.025);
+      }
+      /* CRT scanlines overlay */
+      .scanlines::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.18) 0px,
+          rgba(0, 0, 0, 0.18) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+        mix-blend-mode: multiply;
+      }
+      /* Gold corner brackets */
+      .corner {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-color: #ffd700;
+        border-style: solid;
+        z-index: 3;
+      }
+      .corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+      .corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+      .corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+      .corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+      /* Infinite ticker */
+      .ticker {
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .ticker-track {
+        display: inline-flex;
+        animation: tickerScroll 28s linear infinite;
+        will-change: transform;
+      }
+      .ticker:hover .ticker-track {
+        animation-play-state: paused;
+      }
+      @keyframes tickerScroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
       /* Blinking status dot */
       .status-dot {
         animation: blink 1.4s steps(2, start) infinite;
@@ -275,7 +365,9 @@
         }
         .hero-zoom,
         .cta-glow,
-        .status-dot {
+        .status-dot,
+        .text-gold-gradient,
+        .ticker-track {
           animation: none;
         }
       }
@@ -334,18 +426,18 @@
     <main class="flex-grow pt-24" id="top">
       <!-- Hero Section -->
       <section
-        class="relative w-full min-h-[80vh] flex flex-col justify-center px-margin-mobile md:px-margin-desktop tech-border border-l-0 border-r-0 mb-24 overflow-hidden scroll-mt-24"
+        class="relative w-full flex flex-col justify-center px-margin-mobile md:px-margin-desktop pt-12 md:pt-20 tech-border border-l-0 border-r-0 mb-24 overflow-hidden scroll-mt-24"
         id="events"
       >
         <div class="absolute inset-0 z-0">
           <div
-            class="hero-zoom w-full h-full bg-cover bg-center opacity-30 mix-blend-luminosity"
+            class="hero-zoom w-full h-full bg-cover bg-center opacity-20 blur-md scale-110"
             style="
-              background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuD5PqO9r0DiIk2vRd9oCPq54JbBPfFpy9wXJXW1VG-VvlA-94z2_iXcraFRAoF0O_BvlQAsN0CsDQEB-vs1IX2rnvJGmbSpAEGkTmapjb3hJlkDC5Ei_IjDLdJqby5_q5xNliT-pUHpwQ1nbhQaqPNSkb86Yz2k4JJx47PpoPN6CHBimiRM93VaSEj1nQYaJqAIA2neyyHYRbIzhEuWmEycCmJ0spF6wqYh92HAMLQQmPBz0T38O8wB&quot;);
+              background-image: url(&quot;https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,anim=false,background=white,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/xp/f77b9525-664f-4325-b90c-cb801e49f744&quot;);
             "
           ></div>
           <div
-            class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"
+            class="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40"
           ></div>
         </div>
         <div class="relative z-10 max-w-max-width mx-auto w-full hero-stagger">
@@ -356,7 +448,7 @@
             STATUS: ACTIVE // ROOT ACCESS GRANTED
           </div>
           <h1
-            class="font-headline-xl text-headline-xl md:text-[120px] md:leading-[0.9] text-primary tracking-tighter mb-4"
+            class="font-headline-xl text-headline-xl md:text-[120px] md:leading-[0.9] tracking-tighter mb-4 text-gold-gradient"
           >
             BEERFi
           </h1>
@@ -369,9 +461,11 @@
           <div class="flex flex-col sm:flex-row gap-4 mb-12">
             <a
               class="cta-glow bg-primary-container text-on-primary-container font-code-md text-code-md uppercase px-8 py-4 border border-primary-container hover:bg-primary-fixed-dim transition-all rounded-none flex justify-center items-center gap-2 group active:scale-95"
-              href="#join"
+              href="https://luma.com/beerfi"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              JOIN THE COMMUNITY
+              NEXT MEETUP ON LUMA
               <span
                 class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
                 >arrow_forward</span
@@ -379,18 +473,69 @@
             </a>
             <a
               class="bg-transparent text-primary font-code-md text-code-md uppercase px-8 py-4 border border-white/20 hover:border-primary hover:bg-white/5 transition-all rounded-none flex justify-center items-center gap-2 active:scale-95"
-              href="https://www.meetup.com/beerfi-prague/"
+              href="#join"
+            >
+              JOIN THE COMMUNITY
+              <span class="material-symbols-outlined">group</span>
+            </a>
+          </div>
+          <!-- Featured artwork in terminal frame -->
+          <div class="art-frame mb-0 group">
+            <span class="corner corner-tl"></span>
+            <span class="corner corner-tr"></span>
+            <span class="corner corner-bl"></span>
+            <span class="corner corner-br"></span>
+            <div
+              class="flex items-center justify-between gap-4 px-4 py-2 border-b border-white/10 font-code-md text-[11px] uppercase tracking-wider text-on-surface-variant"
+            >
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-error/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-secondary-container/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-tertiary-container/80"></span>
+              </div>
+              <span class="hidden sm:block">~/beerfi/prague — live_feed.png</span>
+              <span class="text-primary-container">● REC</span>
+            </div>
+            <a
+              class="relative block scanlines overflow-hidden"
+              href="https://luma.com/beerfi"
               rel="noopener noreferrer"
               target="_blank"
             >
-              NEXT MEETUP
-              <span class="material-symbols-outlined">calendar_today</span>
+              <img
+                alt="BeerFi Prague — builders with laptops and cold beer in front of Prague architecture"
+                class="art-img"
+                src="https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,anim=false,background=white,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/xp/f77b9525-664f-4325-b90c-cb801e49f744"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-between p-4 font-code-md text-code-md uppercase z-[2]"
+              >
+                <span class="text-primary">Every month. One pub. All builders.</span>
+                <span class="text-primary-container flex items-center gap-1">
+                  luma.com/beerfi
+                  <span class="material-symbols-outlined text-base">open_in_new</span>
+                </span>
+              </div>
             </a>
           </div>
-          <div
-            class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest border-t border-white/10 pt-4 inline-block"
-          >
-            PRAGUE · WEB3 · SMART CONTRACTS · BUILDERS
+        </div>
+        <!-- Ticker -->
+        <div
+          class="ticker relative z-10 -mx-margin-mobile md:-mx-margin-desktop mt-12 border-t border-white/10 py-3 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+        >
+          <div class="ticker-track">
+            <span class="px-4">PRAGUE</span><span class="text-primary-container">·</span>
+            <span class="px-4">WEB3</span><span class="text-primary-container">·</span>
+            <span class="px-4">SMART CONTRACTS</span><span class="text-primary-container">·</span>
+            <span class="px-4">BUILDERS</span><span class="text-primary-container">·</span>
+            <span class="px-4">COLD BEER</span><span class="text-primary-container">·</span>
+            <span class="px-4">SECURITY</span><span class="text-primary-container">·</span>
+            <span class="px-4">PRAGUE</span><span class="text-primary-container">·</span>
+            <span class="px-4">WEB3</span><span class="text-primary-container">·</span>
+            <span class="px-4">SMART CONTRACTS</span><span class="text-primary-container">·</span>
+            <span class="px-4">BUILDERS</span><span class="text-primary-container">·</span>
+            <span class="px-4">COLD BEER</span><span class="text-primary-container">·</span>
+            <span class="px-4">SECURITY</span><span class="text-primary-container">·</span>
           </div>
         </div>
       </section>
@@ -657,10 +802,10 @@
       <div class="flex gap-6 mt-6 md:mt-0">
         <a
           class="text-on-surface-variant hover:text-primary-fixed-dim hover:-translate-y-0.5 transition-all duration-300"
-          href="https://www.meetup.com/beerfi-prague/"
+          href="https://luma.com/beerfi"
           rel="noopener noreferrer"
           target="_blank"
-          >Meetup</a
+          >Luma</a
         >
         <a
           class="text-on-surface-variant hover:text-primary-fixed-dim hover:-translate-y-0.5 transition-all duration-300"
