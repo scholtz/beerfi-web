@@ -129,6 +129,9 @@
       };
     </script>
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
       body {
         background-color: #131313;
         background-image: linear-gradient(
@@ -140,6 +143,7 @@
       }
       .tech-border {
         border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: border-color 0.4s ease;
       }
       .tech-border:hover {
         border-color: #ffd700;
@@ -161,6 +165,120 @@
           transform: translateY(0);
         }
       }
+      /* Scroll-triggered reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease-out,
+          transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--reveal-delay, 0s);
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Hero entrance stagger */
+      .hero-stagger > * {
+        opacity: 0;
+        animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .hero-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+      .hero-stagger > *:nth-child(2) { animation-delay: 0.25s; }
+      .hero-stagger > *:nth-child(3) { animation-delay: 0.4s; }
+      .hero-stagger > *:nth-child(4) { animation-delay: 0.55s; }
+      .hero-stagger > *:nth-child(5) { animation-delay: 0.7s; }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Blinking status dot */
+      .status-dot {
+        animation: blink 1.4s steps(2, start) infinite;
+      }
+      @keyframes blink {
+        to {
+          visibility: hidden;
+        }
+      }
+      /* Slow zoom on hero background */
+      .hero-zoom {
+        animation: heroZoom 18s ease-in-out infinite alternate;
+      }
+      @keyframes heroZoom {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.08);
+        }
+      }
+      /* Card hover lift + glow */
+      .card-lift {
+        transition:
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.4s ease,
+          background-color 0.4s ease;
+      }
+      .card-lift:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px -12px rgba(255, 215, 0, 0.25);
+      }
+      /* Primary CTA glow pulse */
+      .cta-glow {
+        animation: ctaGlow 2.8s ease-in-out infinite;
+      }
+      @keyframes ctaGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+        }
+        50% {
+          box-shadow: 0 0 24px 0 rgba(255, 215, 0, 0.35);
+        }
+      }
+      /* Animated nav link underline */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 1px;
+        background: #fff6df;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+      .nav-link:hover::after {
+        transform: scaleX(1);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal,
+        .hero-stagger > * {
+          opacity: 1;
+          transform: none;
+          animation: none;
+          transition: none;
+        }
+        .hero-zoom,
+        .cta-glow,
+        .status-dot {
+          animation: none;
+        }
+      }
       .material-symbols-outlined {
         font-variation-settings:
           "FILL" 0,
@@ -177,34 +295,35 @@
     <nav
       class="bg-background/80 backdrop-blur-xl font-code-md text-code-md uppercase tracking-wider fixed top-0 w-full z-50 border-b border-white/10 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 mx-auto"
     >
-      <div
+      <a
         class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-container flex items-center gap-2"
+        href="#top"
       >
         <span class="material-symbols-outlined text-primary-container"
           >code_blocks</span
         >
         BeerFi Prague
-      </div>
+      </a>
       <div class="hidden md:flex items-center gap-8">
-        <a class="text-primary border-b border-primary pb-1" href="#">About</a>
+        <a class="nav-link text-primary pb-1 px-2 py-1" href="#about">About</a>
         <a
-          class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-2 py-1"
-          href="#"
+          class="nav-link text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all duration-300 px-2 py-1"
+          href="#topics"
           >Topics</a
         >
         <a
-          class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-2 py-1"
-          href="#"
+          class="nav-link text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all duration-300 px-2 py-1"
+          href="#community"
           >Community</a
         >
         <a
-          class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-2 py-1"
-          href="#"
+          class="nav-link text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all duration-300 px-2 py-1"
+          href="#events"
           >Events</a
         >
         <a
-          class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-2 py-1"
-          href="#"
+          class="nav-link text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all duration-300 px-2 py-1"
+          href="#join"
           >Join</a
         >
       </div>
@@ -212,14 +331,15 @@
         <span class="material-symbols-outlined">menu</span>
       </button>
     </nav>
-    <main class="flex-grow pt-24">
+    <main class="flex-grow pt-24" id="top">
       <!-- Hero Section -->
       <section
-        class="relative w-full min-h-[80vh] flex flex-col justify-center px-margin-mobile md:px-margin-desktop tech-border border-l-0 border-r-0 mb-24 overflow-hidden"
+        class="relative w-full min-h-[80vh] flex flex-col justify-center px-margin-mobile md:px-margin-desktop tech-border border-l-0 border-r-0 mb-24 overflow-hidden scroll-mt-24"
+        id="events"
       >
         <div class="absolute inset-0 z-0">
           <div
-            class="w-full h-full bg-cover bg-center opacity-30 mix-blend-luminosity"
+            class="hero-zoom w-full h-full bg-cover bg-center opacity-30 mix-blend-luminosity"
             style="
               background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuD5PqO9r0DiIk2vRd9oCPq54JbBPfFpy9wXJXW1VG-VvlA-94z2_iXcraFRAoF0O_BvlQAsN0CsDQEB-vs1IX2rnvJGmbSpAEGkTmapjb3hJlkDC5Ei_IjDLdJqby5_q5xNliT-pUHpwQ1nbhQaqPNSkb86Yz2k4JJx47PpoPN6CHBimiRM93VaSEj1nQYaJqAIA2neyyHYRbIzhEuWmEycCmJ0spF6wqYh92HAMLQQmPBz0T38O8wB&quot;);
             "
@@ -228,14 +348,11 @@
             class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"
           ></div>
         </div>
-        <div
-          class="relative z-10 max-w-max-width mx-auto w-full animate-fade-in"
-          style="animation-delay: 0.1s"
-        >
+        <div class="relative z-10 max-w-max-width mx-auto w-full hero-stagger">
           <div
             class="font-code-md text-code-md text-primary-container mb-4 flex items-center gap-2"
           >
-            <span class="w-2 h-2 bg-primary-container block"></span>
+            <span class="status-dot w-2 h-2 bg-primary-container block"></span>
             STATUS: ACTIVE // ROOT ACCESS GRANTED
           </div>
           <h1
@@ -250,21 +367,25 @@
             beer.
           </h2>
           <div class="flex flex-col sm:flex-row gap-4 mb-12">
-            <button
-              class="bg-primary-container text-on-primary-container font-code-md text-code-md uppercase px-8 py-4 border border-primary-container hover:bg-primary-fixed-dim transition-all rounded-none flex justify-center items-center gap-2 group"
+            <a
+              class="cta-glow bg-primary-container text-on-primary-container font-code-md text-code-md uppercase px-8 py-4 border border-primary-container hover:bg-primary-fixed-dim transition-all rounded-none flex justify-center items-center gap-2 group active:scale-95"
+              href="#join"
             >
               JOIN THE COMMUNITY
               <span
                 class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
                 >arrow_forward</span
               >
-            </button>
-            <button
-              class="bg-transparent text-primary font-code-md text-code-md uppercase px-8 py-4 border border-white/20 hover:border-primary transition-all rounded-none flex justify-center items-center gap-2"
+            </a>
+            <a
+              class="bg-transparent text-primary font-code-md text-code-md uppercase px-8 py-4 border border-white/20 hover:border-primary hover:bg-white/5 transition-all rounded-none flex justify-center items-center gap-2 active:scale-95"
+              href="https://www.meetup.com/beerfi-prague/"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               NEXT MEETUP
               <span class="material-symbols-outlined">calendar_today</span>
-            </button>
+            </a>
           </div>
           <div
             class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest border-t border-white/10 pt-4 inline-block"
@@ -275,11 +396,11 @@
       </section>
       <!-- Not another crypto meetup -->
       <section
-        class="px-margin-mobile md:px-margin-desktop py-12 max-w-max-width mx-auto w-full mb-24 animate-fade-in"
-        style="animation-delay: 0.2s"
+        class="px-margin-mobile md:px-margin-desktop py-12 max-w-max-width mx-auto w-full mb-24 scroll-mt-24"
+        id="about"
       >
         <div
-          class="mb-12 flex items-end justify-between border-b border-white/10 pb-4"
+          class="reveal mb-12 flex items-end justify-between border-b border-white/10 pb-4"
         >
           <h3 class="font-headline-lg text-headline-lg text-primary">
             Not another crypto meetup.
@@ -292,7 +413,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Card 1 -->
           <div
-            class="bg-surface-container-low tech-border p-8 relative group hover:bg-surface-container transition-colors"
+            class="reveal card-lift bg-surface-container-low tech-border p-8 relative group hover:bg-surface-container"
           >
             <div
               class="absolute top-4 right-4 font-label-sm text-label-sm text-primary-container"
@@ -313,7 +434,8 @@
           </div>
           <!-- Card 2 -->
           <div
-            class="bg-surface-container-low tech-border p-8 relative group hover:bg-surface-container transition-colors"
+            class="reveal card-lift bg-surface-container-low tech-border p-8 relative group hover:bg-surface-container"
+            style="--reveal-delay: 0.15s"
           >
             <div
               class="absolute top-4 right-4 font-label-sm text-label-sm text-error"
@@ -334,7 +456,8 @@
           </div>
           <!-- Card 3 -->
           <div
-            class="bg-surface-container-low tech-border p-8 relative group hover:bg-surface-container transition-colors"
+            class="reveal card-lift bg-surface-container-low tech-border p-8 relative group hover:bg-surface-container"
+            style="--reveal-delay: 0.3s"
           >
             <div
               class="absolute top-4 right-4 font-label-sm text-label-sm text-secondary-container"
@@ -357,8 +480,8 @@
       </section>
       <!-- Technical Diagram Section -->
       <section
-        class="px-margin-mobile md:px-margin-desktop py-24 bg-surface-container-lowest border-y border-white/10 w-full mb-24 relative overflow-hidden animate-fade-in"
-        style="animation-delay: 0.3s"
+        class="px-margin-mobile md:px-margin-desktop py-24 bg-surface-container-lowest border-y border-white/10 w-full mb-24 relative overflow-hidden scroll-mt-24"
+        id="topics"
       >
         <div
           class="absolute right-0 top-0 opacity-5 font-code-md text-[200px] leading-none text-primary pointer-events-none select-none"
@@ -367,12 +490,12 @@
         </div>
         <div class="max-w-max-width mx-auto">
           <h3
-            class="font-headline-md text-headline-md text-primary-container mb-16 uppercase tracking-wider text-center"
+            class="reveal font-headline-md text-headline-md text-primary-container mb-16 uppercase tracking-wider text-center"
           >
             FROM CONCEPT TO BYTECODE
           </h3>
           <div
-            class="flex flex-col items-center gap-8 relative font-code-md text-code-md text-on-surface"
+            class="reveal-stagger flex flex-col items-center gap-8 relative font-code-md text-code-md text-on-surface"
           >
             <div
               class="tech-border bg-background px-6 py-3 min-w-[200px] text-center z-10 flex items-center justify-between gap-4"
@@ -438,11 +561,11 @@
       </section>
       <!-- Community Stats -->
       <section
-        class="px-margin-mobile md:px-margin-desktop py-12 max-w-max-width mx-auto w-full mb-24 animate-fade-in"
-        style="animation-delay: 0.4s"
+        class="px-margin-mobile md:px-margin-desktop py-12 max-w-max-width mx-auto w-full mb-24 scroll-mt-24"
+        id="community"
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div>
+          <div class="reveal">
             <h3 class="font-headline-xl text-headline-xl text-primary mb-6">
               BUILDERS,<br />NOT SPECTATORS.
             </h3>
@@ -451,12 +574,17 @@
               and technical founders in the Prague ecosystem.
             </p>
           </div>
-          <div class="grid grid-cols-2 gap-px bg-white/10 tech-border">
+          <div
+            class="reveal grid grid-cols-2 gap-px bg-white/10 tech-border"
+            style="--reveal-delay: 0.15s"
+          >
             <div
               class="bg-background p-8 flex flex-col justify-center items-center text-center"
             >
               <div
                 class="font-headline-lg text-headline-lg text-primary-container mb-2"
+                data-count="600"
+                data-suffix="+"
               >
                 600+
               </div>
@@ -469,7 +597,11 @@
             <div
               class="bg-background p-8 flex flex-col justify-center items-center text-center"
             >
-              <div class="font-headline-lg text-headline-lg text-primary mb-2">
+              <div
+                class="font-headline-lg text-headline-lg text-primary mb-2"
+                data-count="50"
+                data-suffix="+"
+              >
                 50+
               </div>
               <div
@@ -481,7 +613,10 @@
             <div
               class="bg-background p-8 flex flex-col justify-center items-center text-center"
             >
-              <div class="font-headline-lg text-headline-lg text-primary mb-2">
+              <div
+                class="font-headline-lg text-headline-lg text-primary mb-2"
+                data-count="2022"
+              >
                 2022
               </div>
               <div
@@ -508,7 +643,8 @@
     </main>
     <!-- Footer Component -->
     <footer
-      class="bg-surface-container-lowest font-code-md text-code-md w-full py-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop gap-gutter mt-auto"
+      class="bg-surface-container-lowest font-code-md text-code-md w-full py-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop gap-gutter mt-auto scroll-mt-24"
+      id="join"
     >
       <div class="flex flex-col gap-2 text-center md:text-left">
         <span class="font-headline-md text-headline-md text-primary font-bold"
@@ -520,26 +656,106 @@
       </div>
       <div class="flex gap-6 mt-6 md:mt-0">
         <a
-          class="text-on-surface-variant hover:text-primary-fixed-dim transition-colors"
-          href="#"
+          class="text-on-surface-variant hover:text-primary-fixed-dim hover:-translate-y-0.5 transition-all duration-300"
+          href="https://www.meetup.com/beerfi-prague/"
+          rel="noopener noreferrer"
+          target="_blank"
           >Meetup</a
         >
         <a
-          class="text-on-surface-variant hover:text-primary-fixed-dim transition-colors"
-          href="#"
+          class="text-on-surface-variant hover:text-primary-fixed-dim hover:-translate-y-0.5 transition-all duration-300"
+          href="https://t.me/beerfiprague"
+          rel="noopener noreferrer"
+          target="_blank"
           >Telegram</a
         >
         <a
-          class="text-on-surface-variant hover:text-primary-fixed-dim transition-colors"
-          href="#"
+          class="text-on-surface-variant hover:text-primary-fixed-dim hover:-translate-y-0.5 transition-all duration-300"
+          href="https://github.com/scholtz"
+          rel="noopener noreferrer"
+          target="_blank"
           >Github</a
         >
         <a
-          class="text-on-surface-variant hover:text-primary-fixed-dim transition-colors"
-          href="#"
+          class="text-on-surface-variant hover:text-primary-fixed-dim hover:-translate-y-0.5 transition-all duration-300"
+          href="https://x.com/beerfiprague"
+          rel="noopener noreferrer"
+          target="_blank"
           >Twitter</a
         >
       </div>
     </footer>
+    <script>
+      (function () {
+        var reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        // Auto-stagger children of .reveal-stagger containers
+        document.querySelectorAll(".reveal-stagger").forEach(function (parent) {
+          Array.prototype.forEach.call(
+            parent.children,
+            function (child, index) {
+              child.classList.add("reveal");
+              child.style.setProperty(
+                "--reveal-delay",
+                Math.min(index * 0.08, 0.8) + "s",
+              );
+            },
+          );
+        });
+
+        // Scroll-triggered reveals
+        var revealObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+        );
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          if (reduceMotion) {
+            el.classList.add("is-visible");
+          } else {
+            revealObserver.observe(el);
+          }
+        });
+
+        // Count-up stats when they scroll into view
+        var counterObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              counterObserver.unobserve(entry.target);
+              var el = entry.target;
+              var target = parseInt(el.getAttribute("data-count"), 10);
+              var suffix = el.getAttribute("data-suffix") || "";
+              if (reduceMotion || isNaN(target)) {
+                el.textContent = target + suffix;
+                return;
+              }
+              var duration = 1200;
+              var start = null;
+              function step(timestamp) {
+                if (start === null) start = timestamp;
+                var progress = Math.min((timestamp - start) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(target * eased) + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+              }
+              requestAnimationFrame(step);
+            });
+          },
+          { threshold: 0.5 },
+        );
+        document.querySelectorAll("[data-count]").forEach(function (el) {
+          counterObserver.observe(el);
+        });
+      })();
+    </script>
   </body>
 </html>
