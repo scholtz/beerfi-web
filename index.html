@@ -200,6 +200,8 @@
       }
       /* Gold gradient headline */
       .text-gold-gradient {
+        display: inline-block;
+        color: #ffd700;
         background: linear-gradient(
           100deg,
           #fff6df 0%,
@@ -210,8 +212,12 @@
         background-size: 200% auto;
         -webkit-background-clip: text;
         background-clip: text;
-        color: transparent;
         animation: goldShimmer 6s linear infinite;
+      }
+      @supports (-webkit-background-clip: text) {
+        .text-gold-gradient {
+          color: transparent;
+        }
       }
       @keyframes goldShimmer {
         to {
@@ -482,10 +488,10 @@
         >
       </div>
     </div>
-    <main class="flex-grow pt-24" id="top">
+    <main class="flex-grow pt-20" id="top">
       <!-- Hero Section -->
       <section
-        class="relative w-full flex flex-col justify-center px-margin-mobile md:px-margin-desktop pt-8 md:pt-12 tech-border border-l-0 border-r-0 mb-16 overflow-hidden scroll-mt-24"
+        class="relative w-full flex flex-col justify-center px-margin-mobile md:px-margin-desktop pt-6 md:pt-10 tech-border border-l-0 border-r-0 mb-16 overflow-hidden scroll-mt-24"
         id="events"
       >
         <div class="absolute inset-0 z-0">
@@ -510,9 +516,9 @@
               STATUS: ACTIVE // ROOT ACCESS GRANTED
             </div>
             <h1
-              class="font-headline-xl text-headline-xl md:text-[88px] md:leading-[0.95] tracking-tighter mb-4 text-gold-gradient"
+              class="font-headline-xl text-headline-xl md:text-[88px] md:leading-[0.95] tracking-tighter mb-4"
             >
-              BEERFi
+              <span class="text-gold-gradient">BEERFi</span>
             </h1>
             <h2
               class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface-variant mb-6"
@@ -561,7 +567,7 @@
           </div>
           <!-- Featured artwork in terminal frame -->
           <div
-            class="art-frame group order-1 lg:order-2 animate-fade-in"
+            class="art-frame group order-1 lg:order-2 animate-fade-in w-full lg:max-w-[640px] lg:justify-self-end"
             style="animation-delay: 0.35s"
           >
             <span class="corner corner-tl"></span>
@@ -590,21 +596,28 @@
                 class="art-img"
                 src="https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,dpr=1,anim=false,background=white,quality=80,width=1250/calendar-cover-images/xp/f77b9525-664f-4325-b90c-cb801e49f744"
               />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-between p-4 font-code-md text-code-md uppercase z-[2]"
-              >
-                <span class="text-primary">Every month. One pub. All builders.</span>
-                <span class="text-primary-container flex items-center gap-1">
-                  luma.com/beerfi
-                  <span class="material-symbols-outlined text-base">open_in_new</span>
-                </span>
-              </div>
             </a>
+            <div
+              class="flex items-center justify-between gap-4 px-4 py-2 border-t border-white/10 font-code-md text-[11px] uppercase tracking-wider"
+            >
+              <span class="text-on-surface-variant"
+                >Every month. One pub. All builders.</span
+              >
+              <a
+                class="text-primary-container hover:text-primary transition-colors flex items-center gap-1"
+                href="https://luma.com/beerfi"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                luma.com/beerfi
+                <span class="material-symbols-outlined text-sm">open_in_new</span>
+              </a>
+            </div>
           </div>
         </div>
         <!-- Ticker -->
         <div
-          class="ticker relative z-10 -mx-margin-mobile md:-mx-margin-desktop mt-8 border-t border-white/10 py-3 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
+          class="ticker relative z-10 -mx-margin-mobile md:-mx-margin-desktop mt-6 border-t border-white/10 py-3 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant"
         >
           <div class="ticker-track">
             <span class="px-4">PRAGUE</span><span class="text-primary-container">·</span>
